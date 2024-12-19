@@ -64,10 +64,6 @@ public class GTaskASyncTask extends AsyncTask<Void, String, Integer> {
     }
 
     private void showNotification(int tickerId, String content) {
-        Notification notification = new Notification(R.drawable.notification, mContext
-                .getString(tickerId), System.currentTimeMillis());
-        notification.defaults = Notification.DEFAULT_LIGHTS;
-        notification.flags = Notification.FLAG_AUTO_CANCEL;
         PendingIntent pendingIntent;
         if (tickerId != R.string.ticker_success) {
             pendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext,
@@ -77,11 +73,20 @@ public class GTaskASyncTask extends AsyncTask<Void, String, Integer> {
             pendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext,
                     NotesListActivity.class), 0);
         }
-//        notification.setLatestEventInfo(mContext, mContext.getString(R.string.app_name), content,
-//                pendingIntent);
-        notification.contentIntent = pendingIntent;
+
+
+        Notification.Builder builder = new Notification.Builder(mContext)
+                .setAutoCancel(true)
+                .setContentTitle(mContext.getString(R.string.app_name))
+                .setContentText(content)
+                .setContentIntent(pendingIntent)
+                .setWhen(System.currentTimeMillis())
+                .setOngoing(true);
+        Notification notification=builder.getNotification();
         mNotifiManager.notify(GTASK_SYNC_NOTIFICATION_ID, notification);
     }
+
+
 
     @Override
     protected Integer doInBackground(Void... unused) {

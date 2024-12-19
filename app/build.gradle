@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "25.0.1"
+    namespace "net.micode.notes"
+    compileSdkVersion 33
+    buildToolsVersion "35.0.0"
 
     defaultConfig {
         applicationId "net.micode.notes"
         minSdkVersion 14
-        targetSdkVersion 14
+        targetSdkVersion 33
     }
 
     buildTypes {
@@ -16,5 +17,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
-    android{ useLibrary 'org.apache.http.legacy' }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'E:\\Android\\mi\\Notes-master2\\httpcomponents-client-4.5.14-bin\\lib', include: ['*.aar', '*.jar'],
+            exclude: ['commons-codec-1.11.jar','httpclient-4.5.14.jar','httpclient-cache-4.5.14.jar','fluent-hc-4.5.14.jar','httpmime-4.5.14.jar'])
 }
